@@ -105,3 +105,5 @@ const Categories = () => {
 
 process.env.REACT_APP_API_KEY;
 ```
+
+![image](https://user-images.githubusercontent.com/63990390/130591329-c54293fa-0eb9-467d-805f-be5205026c69.png)
