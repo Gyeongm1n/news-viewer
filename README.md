@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# news-viewer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## news API
 
-## Available Scripts
+https://newsapi.org/s/south-korea-news-api
 
-In the project directory, you can run:
+전체 뉴스: https://newsapi.org/v2/top-headlines?country=kr&apiKey=
 
-### `yarn start`
+특정 카테고리 뉴스: https://newsapi.org/v2/top-headlines?country=kr&category=business&apiKey=
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<br />
 
-### `yarn test`
+## styled-components
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### a태그 중복 속성 설정하기
 
-### `yarn build`
+```js
+const UrlA = styled.a.attrs((props) => ({
+  target: '_blank',
+  rel: 'noopener noreferrer',
+}))`
+  color: black;
+`;
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## sampleData
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```js
+const sampleArticle = {
+  title: '제목',
+  description: '내용',
+  url: 'https://naver.com',
+  urlToImage: 'https://via.placeholder.com/160',
+  author: 'unknown',
+  publishedAt: Date.now(),
+};
+```
 
-### `yarn eject`
+<br />
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## CSS 속성
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### object-fit
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- img나 video 요소와 같은 대체 요소의 콘텐츠 크기를 어떤 방식으로 조절해 요소에 맞출 것인지 지정합니다.
+- cover: 대체 콘텐츠의 가로세로비를 유지하면서, 요소 콘텐츠 박스를 가득 채웁니다. 서로의 가로세로비가 일치하지 않으면 객체 일부가 잘려나갑니다.
+- https://developer.mozilla.org/ko/docs/Web/CSS/object-fit
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### white-space
 
-## Learn More
+- 요소가 공백 문자를 처리하는 법을 지정합니다.
+- normal: 연속 공백을 하나로 합침, 개행 문자도 다른 공백 문자와 동일하게 처리합니다. 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꿉니다.
+- https://developer.mozilla.org/ko/docs/Web/CSS/white-space
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<br />
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## react-router-dom
 
-### Code Splitting
+### 라우터 설정
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```js
+import React from 'react';
+import { Route } from 'react-router-dom';
+import NewsPage from './pages/NewsPage';
 
-### Analyzing the Bundle Size
+const App = () => {
+  return <Route path="/:category?" component={NewsPage} />;
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+export default App;
+```
 
-### Making a Progressive Web App
+### NavLink
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```js
+const Categories = () => {
+  return (
+    <CategoriesBlock>
+      {categories.map((c) => (
+        <Category
+          as={NavLink}
+          activeClassName="active"
+          exact={c.name === 'all'}
+          to={c.name === 'all' ? '/' : `/${c.name}`}
+          key={c.name}
+        >
+          {c.text}
+        </Category>
+      ))}
+    </CategoriesBlock>
+  );
+};
+```
 
-### Advanced Configuration
+<br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 환경 변수
 
-### Deployment
+```js
+// .env.development, .env.test, .env.production
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+process.env.REACT_APP_API_KEY;
+```
